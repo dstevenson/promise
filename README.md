@@ -171,13 +171,14 @@ registered via `$promise->then()`) called with `$update`.
 
 ### When
 
-The `React\Promise\When` class provides useful methods for joining, mapping and
-reducing collections of Promises.
+The `React\Promise\When` class provides useful methods for creating, joining,
+mapping and reducing collections of Promises.
 
 #### When::all()
 
 ``` php
-$promise = React\Promise\When::all(array|React\Promise\PromiseInterface $promisesOrValues, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
+$when = new React\Promise\When();
+$promise = $when->all(array|React\Promise\PromiseInterface $promisesOrValues, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
 ```
 
 Returns a Promise that will resolve only once all the items in
@@ -187,7 +188,8 @@ will be an array containing the resolution values of each of the input array.
 #### When::any()
 
 ``` php
-$promise = React\Promise\When::any(array|React\Promise\PromiseInterface $promisesOrValues, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
+$when = new React\Promise\When();
+$promise = $when->any(array|React\Promise\PromiseInterface $promisesOrValues, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
 ```
 
 Returns a Promise that will resolve when any one of the items in
@@ -200,7 +202,8 @@ rejected. The rejection value will be an array of all rejection reasons.
 #### When::some()
 
 ``` php
-$promise = React\Promise\When::some(array|React\Promise\PromiseInterface $promisesOrValues, integer $howMany, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
+$when = new React\Promise\When();
+$promise = $when->some(array|React\Promise\PromiseInterface $promisesOrValues, integer $howMany, callable $fulfilledHandler = null, callable $errorHandler = null, callable $progressHandler = null);
 ```
 
 Returns a Promise that will resolve when `$howMany` of the supplied items in
@@ -216,7 +219,8 @@ reject). The rejection value will be an array of
 #### When::map()
 
 ``` php
-$promise = React\Promise\When::map(array|React\Promise\PromiseInterface $promisesOrValues, callable $mapFunc);
+$when = new React\Promise\When();
+$promise = $when->map(array|React\Promise\PromiseInterface $promisesOrValues, callable $mapFunc);
 ```
 
 Traditional map function, similar to `array_map()`, but allows input to contain
@@ -228,7 +232,8 @@ value of a Promise or value in `$promisesOrValues`.
 #### When::reduce()
 
 ``` php
-$promise = React\Promise\When::reduce(array|React\Promise\PromiseInterface $promisesOrValues, callable $reduceFunc , $initialValue = null);
+$when = new React\Promise\When();
+$promise = $when->reduce(array|React\Promise\PromiseInterface $promisesOrValues, callable $reduceFunc , $initialValue = null);
 ```
 
 Traditional reduce function, similar to `array_reduce()`, but input may contain
@@ -239,7 +244,8 @@ value.
 #### When::resolve()
 
 ``` php
-$promise = React\Promise\When::resolve(mixed $promiseOrValue);
+$when = new React\Promise\When();
+$promise = $when->resolve(mixed $promiseOrValue);
 ```
 
 Creates a resolved Promise for the supplied `$promiseOrValue`.
@@ -252,7 +258,8 @@ If `$promiseOrValue` is a Promise, it will simply be returned.
 #### When::reject()
 
 ``` php
-$promise = React\Promise\When::reject(mixed $promiseOrValue);
+$when = new React\Promise\When();
+$promise = $when->reject(mixed $promiseOrValue);
 ```
 
 Creates a rejected Promise for the supplied `$promiseOrValue`.

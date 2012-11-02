@@ -19,7 +19,9 @@ class WhenResolveTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::resolve($expected)
+        $when = new When();
+        $when
+            ->resolve($expected)
             ->then(
                 $mock,
                 $this->expectCallableNever()
@@ -40,7 +42,9 @@ class WhenResolveTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::resolve($d->promise())
+        $when = new When();
+        $when
+            ->resolve($d->promise())
             ->then(
                 $mock,
                 $this->expectCallableNever()
@@ -61,7 +65,9 @@ class WhenResolveTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::resolve($d->promise())
+        $when = new When();
+        $when
+            ->resolve($d->promise())
             ->then(
                 $this->expectCallableNever(),
                 $mock
@@ -73,8 +79,10 @@ class WhenResolveTest extends TestCase
     {
         $d = new Deferred();
         $d->resolve(false);
+        
+        $when = new When();
 
-        $result = When::resolve(When::resolve($d->then(function ($val) {
+        $result = $when->resolve($when->resolve($d->then(function ($val) use ($when) {
             $d = new Deferred();
             $d->resolve($val);
 
@@ -82,7 +90,7 @@ class WhenResolveTest extends TestCase
                 return $val;
             };
 
-            return When::resolve($d->then($identity))->then(
+            return $when->resolve($d->then($identity))->then(
                 function ($val) {
                     return !$val;
                 }

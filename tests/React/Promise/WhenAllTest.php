@@ -17,7 +17,8 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array()));
 
-        When::all(array(), $mock);
+        $when = new When();
+        $when->all(array(), $mock);
     }
 
     /** @test */
@@ -29,7 +30,8 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2, 3)));
 
-        When::all(
+        $when = new When();
+        $when->all(
             array(1, 2, 3),
             $mock
         );
@@ -44,8 +46,9 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2, 3)));
 
-        When::all(
-            array(When::resolve(1), When::resolve(2), When::resolve(3)),
+        $when = new When();
+        $when->all(
+            array($when->resolve(1), $when->resolve(2), $when->resolve(3)),
             $mock
         );
     }
@@ -59,7 +62,8 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(null, 1, null, 1, 1)));
 
-        When::all(
+        $when = new When();
+        $when->all(
             array(null, 1, null, 1, 1),
             $mock
         );
@@ -74,8 +78,9 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(2));
 
-        When::all(
-            array(When::resolve(1), When::reject(2), When::resolve(3)),
+        $when = new When();
+        $when->all(
+            array($when->resolve(1), $when->reject(2), $when->resolve(3)),
             $this->expectCallableNever(),
             $mock
         );
@@ -90,8 +95,9 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2, 3)));
 
-        When::all(
-            When::resolve(array(1, 2, 3)),
+        $when = new When();
+        $when->all(
+            $when->resolve(array(1, 2, 3)),
             $mock
         );
     }
@@ -105,8 +111,9 @@ class WhenAllTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array()));
 
-        When::all(
-            When::resolve(1),
+        $when = new When();
+        $when->all(
+            $when->resolve(1),
             $mock
         );
     }

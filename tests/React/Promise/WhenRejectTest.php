@@ -19,7 +19,9 @@ class WhenRejectTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::reject($expected)
+        $when = new When();
+        $when
+            ->reject($expected)
             ->then(
                 $this->expectCallableNever(),
                 $mock
@@ -40,7 +42,9 @@ class WhenRejectTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::reject($d->promise())
+        $when = new When();
+        $when
+            ->reject($d->promise())
             ->then(
                 $this->expectCallableNever(),
                 $mock
@@ -61,7 +65,9 @@ class WhenRejectTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo($expected));
 
-        When::reject($d->promise())
+        $when = new When();
+        $when
+            ->reject($d->promise())
             ->then(
                 $this->expectCallableNever(),
                 $mock

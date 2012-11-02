@@ -17,7 +17,8 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(null));
 
-        When::any(array(), $mock);
+        $when = new When();
+        $when->any(array(), $mock);
     }
 
     /** @test */
@@ -29,7 +30,8 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(1));
 
-        When::any(
+        $when = new When();
+        $when->any(
             array(1, 2, 3),
             $mock
         );
@@ -44,8 +46,9 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(1));
 
-        When::any(
-            array(When::resolve(1), When::resolve(2), When::resolve(3)),
+        $when = new When();
+        $when->any(
+            array($when->resolve(1), $when->resolve(2), $when->resolve(3)),
             $mock
         );
     }
@@ -59,8 +62,9 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(0 => 1, 1 => 2, 2 => 3)));
 
-        When::any(
-            array(When::reject(1), When::reject(2), When::reject(3)),
+        $when = new When();
+        $when->any(
+            array($when->reject(1), $when->reject(2), $when->reject(3)),
             $this->expectCallableNever(),
             $mock
         );
@@ -75,8 +79,9 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(1));
 
-        When::any(
-            array(When::resolve(1), When::reject(2), When::reject(3)),
+        $when = new When();
+        $when->any(
+            array($when->resolve(1), $when->reject(2), $when->reject(3)),
             $mock
         );
     }
@@ -90,8 +95,9 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(1));
 
-        When::any(
-            When::resolve(array(1, 2, 3)),
+        $when = new When();
+        $when->any(
+            $when->resolve(array(1, 2, 3)),
             $mock
         );
     }
@@ -105,8 +111,9 @@ class WhenAnyTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(null));
 
-        When::any(
-            When::resolve(1),
+        $when = new When();
+        $when->any(
+            $when->resolve(1),
             $mock
         );
     }

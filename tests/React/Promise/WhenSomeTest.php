@@ -17,7 +17,8 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array()));
 
-        When::some(array(), 1, $mock);
+        $when = new When();
+        $when->some(array(), 1, $mock);
     }
 
     /** @test */
@@ -29,7 +30,8 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2)));
 
-        When::some(
+        $when = new When();
+        $when->some(
             array(1, 2, 3),
             2,
             $mock
@@ -45,8 +47,9 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2)));
 
-        When::some(
-            array(When::resolve(1), When::resolve(2), When::resolve(3)),
+        $when = new When();
+        $when->some(
+            array($when->resolve(1), $when->resolve(2), $when->resolve(3)),
             2,
             $mock
         );
@@ -61,7 +64,8 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(null, 1)));
 
-        When::some(
+        $when = new When();
+        $when->some(
             array(null, 1, null, 2, 3),
             2,
             $mock
@@ -77,8 +81,9 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1 => 2, 2 => 3)));
 
-        When::some(
-            array(When::resolve(1), When::reject(2), When::reject(3)),
+        $when = new When();
+        $when->some(
+            array($when->resolve(1), $when->reject(2), $when->reject(3)),
             2,
             $this->expectCallableNever(),
             $mock
@@ -94,8 +99,9 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array(1, 2)));
 
-        When::some(
-            When::resolve(array(1, 2, 3)),
+        $when = new When();
+        $when->some(
+            $when->resolve(array(1, 2, 3)),
             2,
             $mock
         );
@@ -110,8 +116,9 @@ class WhenSomeTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(array()));
 
-        When::some(
-            When::resolve(1),
+        $when = new When();
+        $when->some(
+            $when->resolve(1),
             1,
             $mock
         );

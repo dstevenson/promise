@@ -8,6 +8,18 @@ namespace React\Promise;
  */
 class DeferredResolveTest extends TestCase
 {
+    private $when;
+
+    public function setUp()
+    {
+        $this->when = new When();
+    }
+
+    public function tearDown()
+    {
+        $this->when = null;
+    }
+
     /** @test */
     public function shouldResolve()
     {
@@ -98,7 +110,7 @@ class DeferredResolveTest extends TestCase
 
         $d
             ->resolver()
-            ->resolve(When::resolve(1))
+            ->resolve($this->when->resolve(1))
             ->then($mock);
     }
 
@@ -117,7 +129,7 @@ class DeferredResolveTest extends TestCase
         // be rejected with the same value
         $d
             ->resolver()
-            ->resolve(When::reject(1))
+            ->resolve($this->when->reject(1))
             ->then($this->expectCallableNever(), $mock);
     }
 
