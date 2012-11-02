@@ -4,9 +4,14 @@ namespace React\Promise;
 
 class When
 {
+    public function defer()
+    {
+        return new Deferred();
+    }
+
     public function resolve($promiseOrValue)
     {
-        $deferred = new Deferred();
+        $deferred = $this->defer();
         $deferred->resolve($promiseOrValue);
 
         return $deferred->promise();
@@ -51,7 +56,7 @@ class When
             $len       = count($array);
             $toResolve = max(0, min($howMany, $len));
             $values    = array();
-            $deferred  = new Deferred();
+            $deferred  = $self->defer();
 
             if (!$toResolve) {
                 $deferred->resolve($values);
@@ -115,7 +120,7 @@ class When
 
             $toResolve = count($array);
             $results   = array();
-            $deferred  = new Deferred();
+            $deferred  = $self->defer();
 
             if (!$toResolve) {
                 $deferred->resolve($results);
