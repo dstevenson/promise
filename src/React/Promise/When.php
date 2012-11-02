@@ -4,9 +4,16 @@ namespace React\Promise;
 
 class When
 {
+    private $queueProcessor;
+
+    public function __construct(QueueProcessorInterface $queueProcessor = null)
+    {
+        $this->queueProcessor = $queueProcessor;
+    }
+
     public function defer()
     {
-        return new Deferred();
+        return new Deferred($this->queueProcessor);
     }
 
     public function resolve($promiseOrValue)

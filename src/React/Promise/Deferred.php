@@ -9,6 +9,12 @@ class Deferred implements PromiseInterface, ResolverInterface
     private $resolver;
     private $handlers = array();
     private $progressHandlers = array();
+    private $queueProcessor;
+
+    public function __construct(QueueProcessorInterface $queueProcessor = null)
+    {
+        $this->queueProcessor = $queueProcessor ?: new SimpleQueueProcessor();
+    }
 
     public function then($fulfilledHandler = null, $errorHandler = null, $progressHandler = null)
     {
@@ -56,7 +62,7 @@ class Deferred implements PromiseInterface, ResolverInterface
 
         $this->completed = Util::promiseFor($result);
 
-        $this->processQueue($this->handlers, $this->completed);
+        $this->queueProcessor->processQueue($this->handlers, $this->completed);
 
         $this->progressHandlers = $this->handlers = array();
 
@@ -74,7 +80,7 @@ class Deferred implements PromiseInterface, ResolverInterface
             return;
         }
 
-        $this->processQueue($this->progressHandlers, $update);
+        $this->queueProcessor->processQueue($this->progressHandlers, $update);
     }
 
     public function promise()
@@ -93,12 +99,5 @@ class Deferred implements PromiseInterface, ResolverInterface
         }
 
         return $this->resolver;
-    }
-
-    protected function processQueue($queue, $value)
-    {
-        foreach ($queue as $handler) {
-            call_user_func($handler, $value);
-        }
     }
 }
