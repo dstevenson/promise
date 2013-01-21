@@ -2,12 +2,12 @@
 
 namespace React\Promise;
 
-class CancelableDeferred implements PromiseInterface, ResolverInterface, PromisorInterface
+class CancelableDeferred implements CancelablePromiseInterface, ResolverInterface, PromisorInterface
 {
     private $canceler;
     private $deferred;
 
-    public function __construct($canceler)
+    public function __construct($canceler = null)
     {
         $this->canceler = $canceler;
         $this->deferred = new Deferred();
@@ -15,7 +15,13 @@ class CancelableDeferred implements PromiseInterface, ResolverInterface, Promiso
 
     public function cancel()
     {
-        return $this->deferred->reject(call_user_func($this->canceler));
+        $reason = null;
+
+        if (is_callable($this->canceler)) {
+            $reason = call_user_func($this->canceler);
+        }
+
+        return $this->deferred->reject($reason);
     }
 
     public function then($fulfilledHandler = null, $errorHandler = null, $progressHandler = null)
@@ -40,7 +46,11 @@ class CancelableDeferred implements PromiseInterface, ResolverInterface, Promiso
 
     public function promise()
     {
-        return $this->deferred->promise();
+        if (null === $this->promise) {
+            $this->promise = new CancelableDeferredPromise($this);
+        }
+
+        return $this->promise;
     }
 
     public function resolver()
